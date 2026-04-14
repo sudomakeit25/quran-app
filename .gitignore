@@ -1,0 +1,44 @@
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+*.iml
+.idea/
+
+# IDEs
+.vscode/
+
+# Native iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/Generated.xcconfig
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Native Android (sensitive — never commit)
+android/.gradle/
+android/local.properties
+android/key.properties
+android/app/upload-keystore.jks
+android/app/release-keystore.jks
+**/*.jks
+**/*.keystore
+
+# Browser profile from Playwright (other project, accidentally nearby)
+.browser-profile/
+
+# OS
+.DS_Store
+
+# Editor backups
+*.swp
+*~
+
+# Large data assets — keep these in repo since app depends on them
+# (assets/quran/*.json, assets/fonts/*.ttf, assets/icon/*.png all stay)

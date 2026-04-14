@@ -1,0 +1,100 @@
+name: quran_app
+description: Quran reader with recitation, translations, and prayer times.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State management
+  flutter_riverpod: ^2.5.1
+
+  # Routing
+  go_router: ^14.2.0
+
+  # Local storage
+  drift: ^2.18.0
+  sqlite3_flutter_libs: ^0.5.24
+  sqlite3: ^2.4.6
+  path_provider: ^2.1.4
+  path: ^1.9.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Audio playback (with background + lock screen support)
+  just_audio: ^0.9.39
+  audio_service: ^0.18.15
+
+  # Prayer times (local algorithm, no API)
+  adhan: ^2.0.0-nullsafety.2
+
+  # Geolocation + compass
+  geolocator: ^12.0.0
+  flutter_compass: ^0.8.1
+  permission_handler: ^11.3.1
+
+  # Notifications (adhan alarm)
+  flutter_local_notifications: ^17.2.2
+  timezone: ^0.9.4
+
+  # HTTP (audio downloads)
+  dio: ^5.5.0+1
+
+  # UI helpers
+  google_fonts: ^6.2.1
+  intl: ^0.20.2
+
+  # Hijri calendar conversion
+  hijri: ^3.0.0
+
+  # Open external URLs (live streams)
+  url_launcher: ^6.3.0
+
+  # Web DOM access (for iframe embeds)
+  web: ^1.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  drift_dev: ^2.18.0
+  build_runner: ^2.4.11
+  flutter_launcher_icons: ^0.14.1
+  flutter_native_splash: ^2.4.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#0F766E"
+  adaptive_icon_foreground: "assets/icon/icon_fg.png"
+  web:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    background_color: "#0F766E"
+    theme_color: "#0F766E"
+  remove_alpha_ios: true
+
+flutter_native_splash:
+  color: "#0F766E"
+  image: "assets/icon/icon_fg.png"
+  android_12:
+    image: "assets/icon/icon_fg.png"
+    color: "#0F766E"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/quran/quran-uthmani.json
+    - assets/quran/quran-en-saheeh.json
+  fonts:
+    - family: UthmanicHafs
+      fonts:
+        - asset: assets/fonts/UthmanicHafs.ttf
