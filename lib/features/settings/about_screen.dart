@@ -34,7 +34,7 @@ class AboutScreen extends StatelessWidget {
             title: const Text('Privacy Policy'),
             trailing: const Icon(Icons.open_in_new),
             onTap: () => launchUrl(Uri.parse(
-                'https://github.com/YOUR_USERNAME/quran-app/blob/main/PRIVACY_POLICY.md')),
+                'https://github.com/sudomakeit25/quran-app/blob/main/PRIVACY_POLICY.md')),
           ),
           ListTile(
             leading: const Icon(Icons.info_outline),
