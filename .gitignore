@@ -42,3 +42,4 @@ android/app/release-keystore.jks
 
 # Large data assets — keep these in repo since app depends on them
 # (assets/quran/*.json, assets/fonts/*.ttf, assets/icon/*.png all stay)
+scripts/node_modules/

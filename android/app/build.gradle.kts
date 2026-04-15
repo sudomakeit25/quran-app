@@ -15,13 +15,14 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.app.quran_app"
+    namespace = "dev.nayeem.quran"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -29,7 +30,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.app.quran_app"
+        applicationId = "dev.nayeem.quran"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -54,4 +55,8 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
