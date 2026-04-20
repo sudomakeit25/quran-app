@@ -11,7 +11,21 @@ class SurahListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final surahsAsync = ref.watch(surahsProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Quran')),
+      appBar: AppBar(
+        title: const Text('Quran'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            tooltip: 'Search',
+            onPressed: () => context.push('/search'),
+          ),
+          IconButton(
+            icon: const Icon(Icons.bookmark),
+            tooltip: 'Bookmarks',
+            onPressed: () => context.push('/bookmarks'),
+          ),
+        ],
+      ),
       body: surahsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Error: $e')),

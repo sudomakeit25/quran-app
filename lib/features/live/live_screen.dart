@@ -20,18 +20,27 @@ class LiveScreen extends StatelessWidget {
     required this.accent,
   });
 
+  Future<void> _openInYouTube() async {
+    // Try YouTube app first (via its custom scheme), fall back to browser.
+    final appUri = Uri.parse(watchUrl.replaceFirst('https://', 'youtube://'));
+    if (await canLaunchUrl(appUri)) {
+      await launchUrl(appUri, mode: LaunchMode.externalApplication);
+      return;
+    }
+    await launchUrl(
+      Uri.parse(watchUrl),
+      mode: LaunchMode.externalApplication,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(title),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.open_in_new),
-            tooltip: 'Open in YouTube',
-            onPressed: () => launchUrl(Uri.parse(watchUrl)),
-          ),
-        ],
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
       ),
       body: kIsWeb
           ? Padding(
@@ -43,23 +52,64 @@ class LiveScreen extends StatelessWidget {
             )
           : Center(
               child: Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(32),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundColor: accent,
-                      child: Icon(icon, color: Colors.white, size: 60),
+                    Container(
+                      width: 140,
+                      height: 140,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [accent, accent.withValues(alpha: 0.6)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(icon, color: Colors.white, size: 80),
                     ),
-                    const SizedBox(height: 24),
-                    Text(title,
-                        style: Theme.of(context).textTheme.headlineSmall),
                     const SizedBox(height: 32),
-                    FilledButton.icon(
-                      onPressed: () => launchUrl(Uri.parse(watchUrl)),
-                      icon: const Icon(Icons.play_arrow),
-                      label: const Text('Watch on YouTube'),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      '24/7 live stream from the Holy Mosque',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.7),
+                        fontSize: 15,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton.icon(
+                        onPressed: _openInYouTube,
+                        icon: const Icon(Icons.play_circle_fill),
+                        label: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            'Watch on YouTube',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Opens the YouTube app or browser.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.5),
+                        fontSize: 12,
+                      ),
                     ),
                   ],
                 ),

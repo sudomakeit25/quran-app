@@ -13,11 +13,11 @@ const sampleAyahs = <AyahSeed>[
 ];
 
 const sampleTranslations = <TranslationSeed>[
-  TranslationSeed(surahNumber: 1, ayahNumber: 1, language: 'en', translator: 'Saheeh International', text: 'In the name of Allah, the Entirely Merciful, the Especially Merciful.'),
-  TranslationSeed(surahNumber: 1, ayahNumber: 2, language: 'en', translator: 'Saheeh International', text: '[All] praise is [due] to Allah, Lord of the worlds —'),
-  TranslationSeed(surahNumber: 1, ayahNumber: 3, language: 'en', translator: 'Saheeh International', text: 'The Entirely Merciful, the Especially Merciful,'),
-  TranslationSeed(surahNumber: 1, ayahNumber: 4, language: 'en', translator: 'Saheeh International', text: 'Sovereign of the Day of Recompense.'),
-  TranslationSeed(surahNumber: 1, ayahNumber: 5, language: 'en', translator: 'Saheeh International', text: 'It is You we worship and You we ask for help.'),
-  TranslationSeed(surahNumber: 1, ayahNumber: 6, language: 'en', translator: 'Saheeh International', text: 'Guide us to the straight path —'),
-  TranslationSeed(surahNumber: 1, ayahNumber: 7, language: 'en', translator: 'Saheeh International', text: 'The path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or of those who are astray.'),
+  TranslationSeed(surahNumber: 1, ayahNumber: 1, language: 'en', translator: 'Saheeh International', body: 'In the name of Allah, the Entirely Merciful, the Especially Merciful.'),
+  TranslationSeed(surahNumber: 1, ayahNumber: 2, language: 'en', translator: 'Saheeh International', body: '[All] praise is [due] to Allah, Lord of the worlds —'),
+  TranslationSeed(surahNumber: 1, ayahNumber: 3, language: 'en', translator: 'Saheeh International', body: 'The Entirely Merciful, the Especially Merciful,'),
+  TranslationSeed(surahNumber: 1, ayahNumber: 4, language: 'en', translator: 'Saheeh International', body: 'Sovereign of the Day of Recompense.'),
+  TranslationSeed(surahNumber: 1, ayahNumber: 5, language: 'en', translator: 'Saheeh International', body: 'It is You we worship and You we ask for help.'),
+  TranslationSeed(surahNumber: 1, ayahNumber: 6, language: 'en', translator: 'Saheeh International', body: 'Guide us to the straight path —'),
+  TranslationSeed(surahNumber: 1, ayahNumber: 7, language: 'en', translator: 'Saheeh International', body: 'The path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or of those who are astray.'),
 ];

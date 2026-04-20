@@ -67,11 +67,57 @@ class AppDatabase extends _$AppDatabase {
             ..orderBy([(t) => OrderingTerm(expression: t.ayahNumber)]))
           .get();
 
+  Future<List<AyahTranslation>> searchTranslations(
+    String query, {
+    String language = 'en',
+    int limit = 200,
+  }) async {
+    if (query.trim().isEmpty) return const [];
+    final q = '%${query.toLowerCase().trim()}%';
+    return (select(ayahTranslations)
+          ..where((t) =>
+              t.language.equals(language) &
+              t.body.lower().like(q))
+          ..orderBy([
+            (t) => OrderingTerm(expression: t.surahNumber),
+            (t) => OrderingTerm(expression: t.ayahNumber),
+          ])
+          ..limit(limit))
+        .get();
+  }
+
+  Future<List<Ayah>> searchArabic(String query, {int limit = 200}) async {
+    if (query.trim().isEmpty) return const [];
+    final q = '%${query.trim()}%';
+    return (select(ayahs)
+          ..where((t) => t.textArabic.like(q))
+          ..orderBy([
+            (t) => OrderingTerm(expression: t.surahNumber),
+            (t) => OrderingTerm(expression: t.ayahNumber),
+          ])
+          ..limit(limit))
+        .get();
+  }
+
   Future<bool> isEmpty() async {
     final count = await (selectOnly(surahs)..addColumns([surahs.number.count()]))
         .map((row) => row.read(surahs.number.count()) ?? 0)
         .getSingle();
     return count == 0;
+  }
+
+  Future<int> ayahCount() async {
+    return (selectOnly(ayahs)..addColumns([ayahs.ayahNumber.count()]))
+        .map((row) => row.read(ayahs.ayahNumber.count()) ?? 0)
+        .getSingle();
+  }
+
+  Future<void> clearAll() async {
+    await batch((b) {
+      b.deleteWhere(ayahTranslations, (_) => const Constant(true));
+      b.deleteWhere(ayahs, (_) => const Constant(true));
+      b.deleteWhere(surahs, (_) => const Constant(true));
+    });
   }
 
   Future<void> seed({

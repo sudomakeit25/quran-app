@@ -25,6 +25,13 @@ const _features = <FeatureItem>[
   FeatureItem(icon: Icons.menu_book_outlined, color: Color(0xFFEAB308), label: 'Learn Tajweed', route: '/tajweed'),
   FeatureItem(icon: Icons.live_tv, color: Color(0xFF1F2937), label: 'Makkah Live', route: '/makkah'),
   FeatureItem(icon: Icons.location_city, color: Color(0xFF059669), label: 'Madinah Live', route: '/madinah'),
+  FeatureItem(icon: Icons.bookmark, color: Color(0xFFD97706), label: 'Bookmarks', route: '/bookmarks'),
+  FeatureItem(icon: Icons.star, color: Color(0xFFBE185D), label: '99 Names', route: '/names'),
+  FeatureItem(icon: Icons.calculate, color: Color(0xFF0891B2), label: 'Zakat', route: '/zakat'),
+  FeatureItem(icon: Icons.checklist, color: Color(0xFF7C3AED), label: 'Tracker', route: '/tracker'),
+  FeatureItem(icon: Icons.brightness_3, color: Color(0xFF9333EA), label: 'Ramadan', route: '/ramadan'),
+  FeatureItem(icon: Icons.mosque, color: Color(0xFF166534), label: 'Mosques', route: '/mosques'),
+  FeatureItem(icon: Icons.library_books, color: Color(0xFF92400E), label: 'Hadith', route: '/hadith'),
 ];
 
 class FeatureGrid extends StatelessWidget {

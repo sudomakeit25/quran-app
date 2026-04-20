@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 
+import '../../widget/widget_updater.dart';
 import '../home_providers.dart';
 
 class PrayerHeader extends ConsumerWidget {
@@ -74,6 +75,8 @@ class PrayerHeader extends ConsumerWidget {
                     style: TextStyle(color: Colors.white70),
                   );
                 }
+                WidgetsBinding.instance
+                    .addPostFrameCallback((_) => updatePrayerWidget(info));
                 return _prayerColumn(context, info, now);
               },
             ),

@@ -4,6 +4,8 @@ import 'package:adhan/adhan.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../settings/prayer_settings.dart';
+
 class TodayPrayerInfo {
   final PrayerTimes times;
   final Prayer current;
@@ -72,22 +74,33 @@ Future<Coordinates> _tryGeolocate() async {
 }
 
 final prayerInfoProvider = FutureProvider<TodayPrayerInfo?>((ref) async {
+  final settings = ref.watch(prayerSettingsProvider);
   final coords = await _resolveCoords();
-  final params = CalculationMethod.muslim_world_league.getParameters();
-  params.madhab = Madhab.shafi;
+  final params = settings.method.getParameters();
+  params.madhab = settings.madhab;
   final times = PrayerTimes.today(coords, params);
   final current = times.currentPrayer();
-  final next = times.nextPrayer();
-  var nextTime = times.timeForPrayer(next) ??
-      times.timeForPrayer(Prayer.fajr) ??
-      DateTime.now().add(const Duration(hours: 1));
-  // adhan returns UTC DateTimes; convert to local for display
+  var next = times.nextPrayer();
+
+  DateTime? nextTime;
+  if (next != Prayer.none) {
+    nextTime = times.timeForPrayer(next);
+  }
+
+  // After Isha, nextPrayer() returns Prayer.none. Compute tomorrow's Fajr.
+  if (nextTime == null) {
+    final tomorrow = DateTime.now().add(const Duration(days: 1));
+    final tomorrowDate = DateComponents(
+      tomorrow.year,
+      tomorrow.month,
+      tomorrow.day,
+    );
+    final tomorrowTimes = PrayerTimes(coords, tomorrowDate, params);
+    nextTime = tomorrowTimes.fajr;
+    next = Prayer.fajr;
+  }
+
   nextTime = nextTime.toLocal();
-  // ignore: avoid_print
-  print('Coords: ${coords.latitude},${coords.longitude} | now=${DateTime.now()} '
-      '| fajr=${times.fajr.toLocal()} dhuhr=${times.dhuhr.toLocal()} '
-      'asr=${times.asr.toLocal()} maghrib=${times.maghrib.toLocal()} '
-      'isha=${times.isha.toLocal()} | current=$current next=$next nextTime=$nextTime');
   return TodayPrayerInfo(
     times: times,
     current: current,

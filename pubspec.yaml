@@ -1,7 +1,7 @@
 name: quran_app
 description: Quran reader with recitation, translations, and prayer times.
 publish_to: 'none'
-version: 0.1.0+1
+version: 0.4.2+10
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
@@ -60,6 +60,16 @@ dependencies:
   # Web DOM access (for iframe embeds)
   web: ^1.0.0
 
+  # Sharing (ayah cards, etc.)
+  share_plus: ^10.1.2
+  path_provider_platform_interface: ^2.1.2
+
+  # Home-screen widget (next prayer countdown)
+  home_widget: ^0.6.0
+
+  # Embedded live stream playback (Makkah/Madinah)
+  webview_flutter: ^4.8.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -94,6 +104,7 @@ flutter:
   assets:
     - assets/quran/quran-uthmani.json
     - assets/quran/quran-en-saheeh.json
+    - assets/icon/prayer_rug.png
   fonts:
     - family: UthmanicHafs
       fonts:
