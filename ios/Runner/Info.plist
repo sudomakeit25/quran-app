@@ -7,7 +7,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>Quran App</string>
+		<string>Quran &amp; Prayer</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -68,5 +68,28 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Used to determine prayer times, Qibla direction, and nearby mosques. Your location is used only on-device and never transmitted.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Used to determine prayer times, Qibla direction, and nearby mosques. Your location is used only on-device and never transmitted.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Used to determine prayer times, Qibla direction, and nearby mosques. Your location is used only on-device and never transmitted.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>Allows saving a shared ayah card image to your photo library.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>This app does not record audio. The microphone permission is requested only by an audio playback library and is not used.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>This app does not use the camera. This permission is included only because referenced by a third-party library.</string>
+		<key>NSBluetoothAlwaysUsageDescription</key>
+		<string>This app does not use Bluetooth. This permission is included only because referenced by a third-party audio library.</string>
+		<key>NSContactsUsageDescription</key>
+		<string>This app does not access contacts. This permission is included only because referenced by a third-party library.</string>
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>audio</string>
+			<string>fetch</string>
+		</array>
 	</dict>
 </plist>

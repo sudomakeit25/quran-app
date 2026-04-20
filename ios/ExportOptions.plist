@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Change "method" depending on where you're uploading:
+	     app-store       App Store Connect (production + TestFlight)
+	     ad-hoc          Direct install on registered devices (enterprise testing)
+	     development     Local install via USB
+	-->
+	<key>method</key>
+	<string>app-store</string>
+
+	<!-- REPLACE with your 10-character Apple Developer Team ID (Xcode -> Settings -> Accounts, or appstoreconnect.apple.com -> Membership) -->
+	<key>teamID</key>
+	<string>YRNCX5ACVU</string>
+
+	<!-- Automatic signing: let Xcode manage certs and provisioning profiles. -->
+	<key>signingStyle</key>
+	<string>automatic</string>
+
+	<!-- Upload symbols so crash reports are symbolicated in Apple's backend. -->
+	<key>uploadSymbols</key>
+	<true/>
+
+	<!-- App Store wants xcframework format for bitcode-stripped libraries. -->
+	<key>stripSwiftSymbols</key>
+	<true/>
+
+	<!-- No testflight auto-upload; flutter build ipa only produces the archive. -->
+	<key>destination</key>
+	<string>export</string>
+</dict>
+</plist>
