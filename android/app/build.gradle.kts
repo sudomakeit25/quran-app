@@ -30,7 +30,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "dev.nayeem.quran"
+        applicationId = "com.nayeem.quran"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
