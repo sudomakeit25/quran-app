@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: tilawa-transcribe
+    runtime: python
+    plan: free
+    rootDir: server
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn tilawa_proxy.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthz
+    envVars:
+      # Set in the Render dashboard. Never commit this.
+      - key: DEEPGRAM_API_KEY
+        sync: false
+      # Optional: without these, rate limits reset whenever the instance restarts.
+      - key: UPSTASH_REDIS_REST_URL
+        sync: false
+      - key: UPSTASH_REDIS_REST_TOKEN
+        sync: false
+      - key: PER_DEVICE_HOURLY
+        value: "60"
+      - key: GLOBAL_DAILY
+        value: "5000"
+      - key: PYTHON_VERSION
+        value: "3.12"
