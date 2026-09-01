@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(kubectl logs *)",
+      "Bash(gcloud logging *)",
+      "Bash(gcloud monitoring *)",
+      "Bash(flutter analyze)",
+      "Bash(flutter pub get)",
+      "Bash(plutil -lint *)",
+      "mcp__atlassian__getJiraIssue"
+    ]
+  }
+}

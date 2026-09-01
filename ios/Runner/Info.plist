@@ -7,7 +7,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>Quran &amp; Prayer</string>
+		<string>Tilawa</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -77,7 +77,9 @@
 		<key>NSPhotoLibraryAddUsageDescription</key>
 		<string>Allows saving a shared ayah card image to your photo library.</string>
 		<key>NSMicrophoneUsageDescription</key>
-		<string>This app does not record audio. The microphone permission is requested only by an audio playback library and is not used.</string>
+		<string>Used for Ayah Check, where you recite a verse and the app verifies your pronunciation on-device. Audio is processed locally and never uploaded.</string>
+		<key>NSSpeechRecognitionUsageDescription</key>
+		<string>Used for Ayah Check, to verify your Quran recitation word-by-word. Speech recognition runs on-device and your voice is never transmitted.</string>
 		<key>NSCameraUsageDescription</key>
 		<string>This app does not use the camera. This permission is included only because referenced by a third-party library.</string>
 		<key>NSBluetoothAlwaysUsageDescription</key>
