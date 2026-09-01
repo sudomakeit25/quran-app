@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/ui_settings.dart';
 import '../../../data/providers.dart';
 import '../../audio/ayah_audio_player.dart';
 import '../../journey/journey_provider.dart';
+import '../../recite/verified_provider.dart';
+import '../../tafsir/tafsir_data.dart';
 import '../../tafsir/tafsir_sheet.dart';
 import '../bookmarks/bookmarks_provider.dart';
-import '../hifz/hifz_provider.dart';
 import '../share/ayah_share.dart';
 import '../transliteration/transliteration_data.dart';
 
@@ -23,9 +25,7 @@ class ReaderScreen extends ConsumerStatefulWidget {
 class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   final _scrollController = ScrollController();
   final _itemKeys = <int, GlobalKey>{};
-  final _revealed = <int>{};
   bool _didInitialJump = false;
-  bool _hifzMode = false;
 
   @override
   void dispose() {
@@ -53,7 +53,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   Widget build(BuildContext context) {
     final detailAsync = ref.watch(surahDetailProvider(widget.surahId));
     final bookmarks = ref.watch(bookmarksProvider);
-    final memorized = ref.watch(memorizedProvider);
+    final verified = ref.watch(verifiedProvider);
     final bookmarked = {
       for (final r in bookmarks)
         if (r.surah == widget.surahId) r.ayah
@@ -66,20 +66,6 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
               Text(d.surah?.nameEnglish ?? 'Surah ${widget.surahId}'),
           orElse: () => Text('Surah ${widget.surahId}'),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(_hifzMode
-                ? Icons.visibility_off
-                : Icons.visibility_off_outlined),
-            tooltip: _hifzMode ? 'Exit memorization mode' : 'Memorization mode',
-            onPressed: () {
-              setState(() {
-                _hifzMode = !_hifzMode;
-                _revealed.clear();
-              });
-            },
-          ),
-        ],
       ),
       body: detailAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -140,9 +126,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                     _itemKeys.putIfAbsent(ayah.ayahNumber, () => GlobalKey());
                 final isBookmarked = bookmarked.contains(ayah.ayahNumber);
                 final ref0 = AyahRef(widget.surahId, ayah.ayahNumber);
-                final isMemorized = memorized.contains(ref0.key);
-                final isRevealed = _revealed.contains(ayah.ayahNumber);
-                final hideArabic = _hifzMode && !isRevealed;
+                final isVerified = verified.contains(ref0.key);
+                // Tafsir is bundled for a subset of ayahs. Only offer it where
+                // there is something to show, rather than opening an empty sheet.
+                final hasTafsir =
+                    tafsirFor(widget.surahId, ayah.ayahNumber).isNotEmpty;
 
                 return Column(
                   key: key,
@@ -151,48 +139,35 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CircleAvatar(
-                              radius: 14,
-                              backgroundColor: isMemorized
-                                  ? Colors.green.shade600
-                                  : null,
-                              child: Text(
-                                '${ayah.ayahNumber}',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: isMemorized ? Colors.white : null,
-                                ),
-                              ),
+                        CircleAvatar(
+                          radius: 14,
+                          backgroundColor: isVerified
+                              ? Colors.green.shade600
+                              : null,
+                          child: Text(
+                            '${ayah.ayahNumber}',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: isVerified ? Colors.white : null,
                             ),
-                            if (_hifzMode) ...[
-                              const SizedBox(width: 8),
-                              TextButton.icon(
-                                icon: Icon(
-                                  isMemorized
-                                      ? Icons.check_circle
-                                      : Icons.radio_button_unchecked,
-                                  size: 16,
-                                  color: isMemorized
-                                      ? Colors.green
-                                      : Colors.grey,
-                                ),
-                                label: Text(
-                                  isMemorized ? 'Memorized' : 'Mark memorized',
-                                  style: const TextStyle(fontSize: 12),
-                                ),
-                                onPressed: () => ref
-                                    .read(memorizedProvider.notifier)
-                                    .toggle(ref0),
-                              ),
-                            ],
-                          ],
+                          ),
                         ),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            if (hasTafsir)
+                              IconButton(
+                                icon: const Icon(Icons.notes_outlined, size: 22),
+                                tooltip: 'Tafsir',
+                                onPressed: () => showTafsir(
+                                    context, widget.surahId, ayah.ayahNumber),
+                              ),
+                            IconButton(
+                              icon: const Icon(Icons.mic_outlined, size: 22),
+                              tooltip: 'Ayah Check',
+                              onPressed: () => context.push(
+                                  '/recite/ayah/${widget.surahId}/${ayah.ayahNumber}'),
+                            ),
                             IconButton(
                               icon: const Icon(Icons.play_circle_outline,
                                   size: 22),
@@ -235,57 +210,17 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    GestureDetector(
-                      onLongPress: () =>
-                          showTafsir(context, widget.surahId, ayah.ayahNumber),
-                      onTap: hideArabic
-                          ? () => setState(() =>
-                              _revealed.add(ayah.ayahNumber))
-                          : null,
-                      child: Stack(
-                        children: [
-                          Text(
-                            ayah.textArabic,
-                            style: TextStyle(
-                              fontFamily: 'UthmanicHafs',
-                              fontSize:
-                                  ref.watch(uiSettingsProvider).arabicFontSize,
-                              height: 2,
-                            ),
-                            textDirection: TextDirection.rtl,
-                            textAlign: TextAlign.right,
-                          ),
-                          if (hideArabic)
-                            Positioned.fill(
-                              child: ClipRect(
-                                child: Container(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .surface
-                                      .withValues(alpha: 0.95),
-                                  alignment: Alignment.center,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.visibility,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary),
-                                      const SizedBox(height: 4),
-                                      const Text(
-                                        'Tap to reveal',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
+                    Text(
+                      ayah.textArabic,
+                      style: TextStyle(
+                        fontFamily: 'UthmanicHafs',
+                        fontSize: ref.watch(uiSettingsProvider).arabicFontSize,
+                        height: 2,
                       ),
+                      textDirection: TextDirection.rtl,
+                      textAlign: TextAlign.right,
                     ),
-                    if (ref.watch(uiSettingsProvider).showTransliteration &&
-                        !_hifzMode) ...[
+                    if (ref.watch(uiSettingsProvider).showTransliteration) ...[
                       const SizedBox(height: 8),
                       Builder(builder: (ctx) {
                         final t = transliterationFor(
@@ -300,7 +235,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                         );
                       }),
                     ],
-                    if (translation != null && !_hifzMode) ...[
+                    if (translation != null) ...[
                       const SizedBox(height: 8),
                       Text(
                         translation,

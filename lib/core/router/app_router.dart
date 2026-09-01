@@ -1,12 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/academy/academy_screen.dart';
 import '../../features/dua/dua_screen.dart';
 import '../../features/home/home_screen.dart';
-import '../../features/inflight/inflight_screen.dart';
-import '../../features/live/live_screen.dart';
 import '../../features/audio/reciter_picker_screen.dart';
 import '../../features/hadith/hadith_screen.dart';
 import '../../features/mosques/mosque_finder_screen.dart';
@@ -21,6 +17,13 @@ import '../../features/quran/bookmarks/bookmarks_screen.dart';
 import '../../features/quran/reader/reader_screen.dart';
 import '../../features/quran/reader/surah_list_screen.dart';
 import '../../features/quran/search/search_screen.dart';
+import '../../features/recite/ayah_check_screen.dart';
+import '../../features/recite/recite_list_screen.dart';
+import '../../features/recite/recite_passage_screen.dart';
+import '../../features/recite/review_queue_screen.dart';
+import '../../features/reflect/reflect_detail_screen.dart';
+import '../../features/reflect/reflect_journal_screen.dart';
+import '../../features/reflect/reflect_screen.dart';
 import '../../features/settings/about_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import '../../features/tajweed/tajweed_screen.dart';
@@ -57,32 +60,35 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/settings', builder: (c, s) => const SettingsScreen()),
       GoRoute(path: '/about', builder: (c, s) => const AboutScreen()),
       GoRoute(path: '/dua', builder: (c, s) => const DuaScreen()),
-      GoRoute(path: '/academy', builder: (c, s) => const AcademyScreen()),
-      GoRoute(path: '/inflight', builder: (c, s) => const InflightScreen()),
+      GoRoute(path: '/reflect', builder: (c, s) => const ReflectScreen()),
+      GoRoute(
+        path: '/reflect/journal',
+        builder: (c, s) => const ReflectJournalScreen(),
+      ),
+      GoRoute(
+        path: '/reflect/:moodId',
+        builder: (c, s) => ReflectDetailScreen(moodId: s.pathParameters['moodId']!),
+      ),
+      GoRoute(path: '/recite', builder: (c, s) => const ReciteListScreen()),
+      GoRoute(path: '/recite/review', builder: (c, s) => const ReviewQueueScreen()),
+      GoRoute(
+        path: '/recite/surah/:id',
+        builder: (c, s) => ReciteSurahScreen(surahId: int.parse(s.pathParameters['id']!)),
+      ),
+      GoRoute(
+        path: '/recite/passage/:id',
+        builder: (c, s) =>
+            RecitePassageScreen(surahId: int.parse(s.pathParameters['id']!)),
+      ),
+      GoRoute(
+        path: '/recite/ayah/:surah/:ayah',
+        builder: (c, s) => AyahCheckScreen(
+          surahId: int.parse(s.pathParameters['surah']!),
+          ayahNumber: int.parse(s.pathParameters['ayah']!),
+        ),
+      ),
       GoRoute(path: '/tasbeeh', builder: (c, s) => const TasbeehScreen()),
       GoRoute(path: '/tajweed', builder: (c, s) => const TajweedScreen()),
-      GoRoute(
-        path: '/makkah',
-        builder: (c, s) => const LiveScreen(
-          title: 'Makkah Live',
-          // Search YouTube filtered to currently-live results.
-          // sp=EgJAAQ%3D%3D filters by "Live now".
-          embedUrl: 'https://www.youtube.com/results?search_query=makkah+live+haram&sp=EgJAAQ%3D%3D',
-          watchUrl: 'https://www.youtube.com/results?search_query=makkah+live+haram&sp=EgJAAQ%3D%3D',
-          icon: Icons.location_city,
-          accent: Color(0xFF1F2937),
-        ),
-      ),
-      GoRoute(
-        path: '/madinah',
-        builder: (c, s) => const LiveScreen(
-          title: 'Madinah Live',
-          embedUrl: 'https://www.youtube.com/results?search_query=madinah+live+nabawi&sp=EgJAAQ%3D%3D',
-          watchUrl: 'https://www.youtube.com/results?search_query=madinah+live+nabawi&sp=EgJAAQ%3D%3D',
-          icon: Icons.mosque,
-          accent: Color(0xFF059669),
-        ),
-      ),
     ],
   );
 });
