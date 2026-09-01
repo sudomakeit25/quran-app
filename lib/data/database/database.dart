@@ -67,6 +67,41 @@ class AppDatabase extends _$AppDatabase {
             ..orderBy([(t) => OrderingTerm(expression: t.ayahNumber)]))
           .get();
 
+  /// Fetches a scattered set of ayahs in one query.
+  ///
+  /// Used by curated features (Reflect) that reference individual ayahs across
+  /// many surahs, where loading each whole surah would be wasteful.
+  Future<List<Ayah>> ayahsByRefs(List<(int surah, int ayah)> refs) {
+    if (refs.isEmpty) return Future.value(const []);
+    return (select(ayahs)
+          ..where((t) {
+            Expression<bool> match = const Constant(false);
+            for (final ref in refs) {
+              match = match |
+                  (t.surahNumber.equals(ref.$1) & t.ayahNumber.equals(ref.$2));
+            }
+            return match;
+          }))
+        .get();
+  }
+
+  Future<List<AyahTranslation>> translationsByRefs(
+    List<(int surah, int ayah)> refs, {
+    String language = 'en',
+  }) {
+    if (refs.isEmpty) return Future.value(const []);
+    return (select(ayahTranslations)
+          ..where((t) {
+            Expression<bool> match = const Constant(false);
+            for (final ref in refs) {
+              match = match |
+                  (t.surahNumber.equals(ref.$1) & t.ayahNumber.equals(ref.$2));
+            }
+            return match & t.language.equals(language);
+          }))
+        .get();
+  }
+
   Future<List<AyahTranslation>> searchTranslations(
     String query, {
     String language = 'en',

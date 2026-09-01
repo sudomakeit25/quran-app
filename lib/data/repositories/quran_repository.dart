@@ -29,6 +29,14 @@ class QuranRepository {
 
   Future<List<Ayah>> ayahsForSurah(int n) => _db.ayahsForSurah(n);
 
+  Future<List<Ayah>> ayahsByRefs(List<(int surah, int ayah)> refs) =>
+      _db.ayahsByRefs(refs);
+
+  Future<List<AyahTranslation>> translationsByRefs(
+    List<(int surah, int ayah)> refs,
+  ) =>
+      _db.translationsByRefs(refs);
+
   Future<Map<int, String>> translationsForSurah(
     int n, {
     String language = 'en',
