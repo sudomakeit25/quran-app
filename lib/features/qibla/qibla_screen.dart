@@ -347,13 +347,6 @@ class _CompassDial extends StatelessWidget {
     );
   }
 
-  Offset _offsetForBearing(double bearingDeg, double fractionOfRadius) {
-    // Approximate offset based on widget size; LayoutBuilder would be more accurate
-    final rad = bearingDeg * math.pi / 180;
-    const r = 280.0 * 0.9; // approximate inner radius
-    return Offset(math.sin(rad) * r * fractionOfRadius,
-        -math.cos(rad) * r * fractionOfRadius);
-  }
 }
 
 class _DialPainter extends CustomPainter {

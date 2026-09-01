@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/theme/app_theme.dart';
 import '../../widget/widget_updater.dart';
 import '../home_providers.dart';
 
@@ -18,18 +19,21 @@ class PrayerHeader extends ConsumerWidget {
     final now = tickAsync.maybeWhen(data: (t) => t, orElse: () => DateTime.now());
 
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
           colors: [
-            Color(0xFF1F2937),
-            Color(0xFF374151),
-            Color(0xFF4B5563),
+            SakinahColors.indigoNight,
+            SakinahColors.indigoDeep,
+            SakinahColors.indigoSoft,
           ],
         ),
+        border: Border(
+          bottom: BorderSide(color: SakinahColors.gold.withValues(alpha: 0.35), width: 1),
+        ),
       ),
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
       child: SafeArea(
         bottom: false,
         child: Column(
@@ -38,7 +42,7 @@ class PrayerHeader extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.settings, color: Colors.white),
+                  icon: const Icon(Icons.settings_outlined, color: SakinahColors.goldSoft),
                   onPressed: () => context.push('/settings'),
                 ),
                 TextButton.icon(
@@ -53,9 +57,9 @@ class PrayerHeader extends ConsumerWidget {
                       ),
                     );
                   },
-                  icon: const Icon(Icons.my_location, color: Colors.white, size: 18),
+                  icon: const Icon(Icons.my_location, color: SakinahColors.goldSoft, size: 18),
                   label: const Text('Use my location',
-                      style: TextStyle(color: Colors.white)),
+                      style: TextStyle(color: SakinahColors.goldSoft)),
                 ),
               ],
             ),
@@ -110,21 +114,31 @@ class PrayerHeader extends ConsumerWidget {
   Widget _prayerColumn(BuildContext context, TodayPrayerInfo info, DateTime now) {
     return Column(
       children: [
-        Text(
-          _prayerName(info.next),
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+          decoration: BoxDecoration(
+            border: Border.all(color: SakinahColors.gold.withValues(alpha: 0.5), width: 1),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            _prayerName(info.next).toUpperCase(),
+            style: const TextStyle(
+              color: SakinahColors.goldSoft,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 2.5,
+            ),
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 10),
         Text(
           DateFormat.jm().format(info.nextTime),
           style: const TextStyle(
-            color: Colors.white,
-            fontSize: 56,
-            fontWeight: FontWeight.bold,
+            color: SakinahColors.cream,
+            fontSize: 60,
+            fontWeight: FontWeight.w300,
+            letterSpacing: 1.5,
+            height: 1.0,
           ),
         ),
       ],
@@ -158,14 +172,14 @@ class PrayerHeader extends ConsumerWidget {
             children: [
               Text(
                 hijriDate,
-                style: const TextStyle(color: Colors.white70, fontSize: 13),
+                style: TextStyle(color: SakinahColors.goldSoft.withValues(alpha: 0.85), fontSize: 13),
               ),
               const SizedBox(height: 2),
               Text(
                 gregorian,
                 style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
+                  color: SakinahColors.cream,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
@@ -175,7 +189,7 @@ class PrayerHeader extends ConsumerWidget {
           Text(
             endsInLabel,
             textAlign: TextAlign.right,
-            style: const TextStyle(color: Colors.white, fontSize: 13),
+            style: TextStyle(color: SakinahColors.cream.withValues(alpha: 0.85), fontSize: 13),
           ),
       ],
     );

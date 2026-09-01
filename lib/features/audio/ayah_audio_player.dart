@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'audio_settings.dart';
-import 'reciters.dart';
 
 /// Small bottom-sheet-style mini player for playing an ayah recitation.
 class AyahMiniPlayer extends ConsumerStatefulWidget {

@@ -2,9 +2,11 @@
     <!-- Location for prayer times and Qibla direction -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Ayah Check: record user's recitation for on-device verification -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:label="Quran &amp; Prayer"
+        android:label="Tilawa"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
@@ -55,6 +57,9 @@
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
+        </intent>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
         </intent>
     </queries>
 </manifest>
