@@ -1,17 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
-import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import '../quran/bookmarks/bookmarks_provider.dart';
-
-final speechProvider = Provider<stt.SpeechToText>((ref) {
-  final s = stt.SpeechToText();
-  ref.onDispose(() {
-    s.cancel();
-    s.stop();
-  });
-  return s;
-});
 
 class VerifiedNotifier extends StateNotifier<Set<String>> {
   final Box _box;

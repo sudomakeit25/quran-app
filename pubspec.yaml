@@ -54,11 +54,8 @@ dependencies:
   # Hijri calendar conversion
   hijri: ^3.0.0
 
-  # Open external URLs (live streams)
+  # Open external URLs (mosque directions, support links)
   url_launcher: ^6.3.0
-
-  # Web DOM access (for iframe embeds)
-  web: ^1.0.0
 
   # Sharing (ayah cards, etc.)
   share_plus: ^10.1.2
@@ -67,13 +64,7 @@ dependencies:
   # Home-screen widget (next prayer countdown)
   home_widget: ^0.6.0
 
-  # Embedded live stream playback (Makkah/Madinah)
-  webview_flutter: ^4.8.0
-
-  # On-device speech recognition (Ayah Check: recitation verification)
-  speech_to_text: ^7.0.0
-
-  # Audio recording for Ayah Check fallback via Deepgram
+  # Audio recording for Ayah Check (sent to the transcription proxy)
   record: ^5.2.1
 
 dependency_overrides:
